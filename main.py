@@ -1,10 +1,3 @@
-class MyClass:
-    """A simple example class"""
-    i = 12345
-
-    def f(self):
-        return 'hello world'
-
-
-multimetro = MyClass()
+import myclass as mc
+multimetro = mc.MyClass()
 print(multimetro.f())
