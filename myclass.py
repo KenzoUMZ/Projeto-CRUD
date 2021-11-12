@@ -4,7 +4,3 @@ class MyClass:
 
     def f(self):
         return 'hello world'
-
-
-multimetro = MyClass()
-print(multimetro.f())
