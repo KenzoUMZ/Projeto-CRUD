@@ -1,6 +1,6 @@
 from database import Graph as Gp
 
-db = Gp('bolt://3.93.238.219:7687', 'neo4j', 'patients-plug-blasts')
+db = Gp('bolt://localhost:7687', 'neo4j', '12345')
 
 
 class Item:
@@ -19,7 +19,7 @@ class Item:
                     'RETURN i.nome AS nome, i.categoria AS categoria;')
         result = db.execute_query(query)
         for record in result:
-            print(f'Item-> Nome: {record["nome"]}, Categoria: {record["categoria"]}')
+            return f'Item-> Nome: {record["nome"]}, Categoria: {record["categoria"]}'
 
     @staticmethod
     def atualizar(cod, nome, categoria):
