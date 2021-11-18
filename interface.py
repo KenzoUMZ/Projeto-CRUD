@@ -59,18 +59,19 @@ class CRUDScreen:
 
         # Radio buttons das categorias
         self.selected_categoria = StringVar()
-        self.radiobutton_categoria_componente = ttk.Radiobutton(self.container2, width=14,
-                                                                text='Componente',
-                                                                variable=self.selected_categoria,
-                                                                value='C',
-                                                                state=NORMAL)
-        self.radiobutton_categoria_componente.pack(side=RIGHT, padx=2)
-        self.radiobutton_categoria_ferramenta = ttk.Radiobutton(self.container2, width=14,
-                                                                text='Ferramenta',
-                                                                variable=self.selected_categoria,
-                                                                value='F',
-                                                                state=NORMAL)
-        self.radiobutton_categoria_ferramenta.pack(side=RIGHT, padx=2)
+        self.radiobutton_categoria_comp = ttk.Radiobutton(self.container2,
+                                                          width=14,
+                                                          text='Componente',
+                                                          variable=self.selected_categoria,
+                                                          value='C',
+                                                          state=NORMAL)
+        self.radiobutton_categoria_comp.pack(side=RIGHT, padx=2)
+        self.radiobutton_categoria_fer = ttk.Radiobutton(self.container2, width=14,
+                                                         text='Ferramenta',
+                                                         variable=self.selected_categoria,
+                                                         value='F',
+                                                         state=NORMAL)
+        self.radiobutton_categoria_fer.pack(side=RIGHT, padx=2)
 
         # Container3
         # Label do nome do item
@@ -80,10 +81,13 @@ class CRUDScreen:
 
         # ComboBox do nome do item
 
-        self.componentes_ferramentas = ['Resistor', 'Potenciômetro', 'Capacitor', 'Diodo', 'Led', 'Bateria',
-                                        'Multímetro', 'Fita Isolante', 'Tesoura', 'Jacarés', 'Gerador de Funções',
+        self.componentes_ferramentas = ['Resistor', 'Potenciômetro', 'Capacitor',
+                                        'Diodo', 'Led', 'Bateria',
+                                        'Multímetro', 'Fita Isolante',
+                                        'Tesoura', 'Jacarés', 'Gerador de Funções',
                                         'Osciloscópio']
-        self.combobox_nome = ttk.Combobox(self.container3, width=28, values=self.componentes_ferramentas,
+        self.combobox_nome = ttk.Combobox(self.container3, width=28,
+                                          values=self.componentes_ferramentas,
                                           state='readonly', font=self.fonte_text_field)
         self.combobox_nome.current(0)
         self.combobox_nome.pack(side=LEFT)
@@ -231,21 +235,22 @@ class LoginScreen:
         self.container4['pady'] = 5
         self.container4.pack()
 
-        def createNewWindow():
-            Toplevel(CRUDScreen(tkinter.Tk()))
-
         # Botao login
 
         self.button_login = Button(self.container4, text='Login',
                                    font=self.fonte_labels, width=15,
-                                   command=lambda: [self.Login, createNewWindow()])
-
+                                   command=self.Login)
         self.button_login.pack(side=BOTTOM)
 
+    @staticmethod
+    def createNewWindow():
+        Toplevel(CRUDScreen(tkinter.Tk()))
+
     def Login(self):
-        auth = Usuario(self.text_field_matricula.get(), self.combobox_cursos.get()).Autenticacao()
+        auth = Usuario(self.text_field_matricula.get(),
+                       self.combobox_cursos.get()).Autenticacao()
 
         if auth == 0:
             tkinter.messagebox.showwarning(title='Erro', message='Aluno não encontrado! Tente novamente.')
         elif auth == 1:
-            return 1
+            self.createNewWindow()

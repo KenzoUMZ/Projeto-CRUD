@@ -26,11 +26,11 @@ class Usuario:
                 self.curso = cursos[i]
 
         query = str(
-            'MATCH(u:Usuario {matricula:' + f'{self.matricula}, ' +
+            'MATCH(u:Usuario{matricula:' + f'{self.matricula}, ' +
             f'curso:"{self.curso}"' + '}) RETURN u.nome as nome')
         result = db.execute_query(query)
 
-        print(result)
+        print(query)
 
         if len(result) == 1:
             print('Aluno Autenticado')

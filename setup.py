@@ -33,3 +33,5 @@ def insert_all():
 
         db.execute_query(query_ferramenta)
         db.execute_query(query_componente)
+
+
