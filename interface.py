@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from item import Item as it
 from usuario import Usuario
+from PIL import Image, ImageTk
 
 
 class CRUDScreen:
@@ -148,8 +149,15 @@ class CRUDScreen:
 
     # Read
     def PesquisarItem(self):
+        nome = self.combobox_nome.get()
+        categoria = self.selected_categoria.get()
         codigo = self.text_field_codigo.get()
-        result = it.pesquisar(codigo)
+        print(nome, categoria, codigo)
+        if categoria is None:
+            print('categoria vazia')
+        else:
+            print('tem dados')
+        result = it.pesquisar(codigo, nome, categoria)
         self.label_result['text'] = result
 
     # Update
@@ -169,8 +177,8 @@ class LoginScreen:
 
     def __init__(self, master=None):
         # Labels das fontes
-        self.fonte_titulo = ('Verdana', '8')
-        self.fonte_labels = ('Calibri', '10', 'bold')
+        self.fonte_titulo = ('Ubuntu', '13', 'bold')
+        self.fonte_labels = ('Ubuntu', '10')
         self.fonte_text_field = ('Calibri Light', '10')
 
         # Criando containers e labels
@@ -179,39 +187,46 @@ class LoginScreen:
         self.container1 = Frame(master)
         self.container1['pady'] = 10
         self.container1.pack()
+        self.container1.configure(bg='#856ff8')
 
         # Titulo
-        self.titulo = Label(self.container1, text='Bem Vindo:')
+        self.titulo = Label(self.container1, text='Bem Vindo!')
         self.titulo['font'] = self.fonte_titulo
+        self.titulo.configure(bg='#856ff8', fg='#FFFFFF')
         self.titulo.pack()
 
         # Container 2
         self.container2 = Frame(master)
         self.container2['padx'] = 20
         self.container2['pady'] = 5
+        self.container2.configure(bg='#856ff8')
+
         self.container2.pack()
 
         # Label da matricula do aluno
         self.label_matricula = Label(self.container2,
                                      text='Matrícula:', font=self.fonte_labels, width=10)
+        self.label_matricula.configure(bg='#856ff8', fg='#FFFFFF')
         self.label_matricula.pack(side=LEFT)
 
         # Campo de texto da matricula
         self.text_field_matricula = Entry(self.container2)
-        self.text_field_matricula['width'] = 15
-        self.text_field_matricula['font'] = self.fonte_text_field
-        self.text_field_matricula.pack(side=RIGHT)
+        self.text_field_matricula['width'] = 20
+        self.text_field_matricula['font'] = self.fonte_labels
+        self.text_field_matricula.pack(side=LEFT, padx=26)
 
         # Container 3
         self.container3 = Frame(master)
         self.container3['padx'] = 30
         self.container3['pady'] = 5
+        self.container3.configure(bg='#856ff8')
         self.container3.pack()
 
         # Label do Curso
 
         self.titulo = Label(self.container3, text='Curso:')
         self.titulo['font'] = self.fonte_labels
+        self.titulo.configure(bg='#856ff8', fg='#FFFFFF')
         self.titulo.pack(side=LEFT)
 
         # ComboBox dos cursos
@@ -233,12 +248,16 @@ class LoginScreen:
         self.container4 = Frame(master)
         self.container4['padx'] = 20
         self.container4['pady'] = 5
+        self.container4.configure(bg='#856ff8')
+
         self.container4.pack()
 
         # Botao login
 
+        img = ImageTk.PhotoImage(Image.open('login2.png'))
+
         self.button_login = Button(self.container4, text='Login',
-                                   font=self.fonte_labels, width=15,
+                                   font=self.fonte_labels, width=5,
                                    command=self.Login)
         self.button_login.pack(side=BOTTOM)
 
@@ -252,5 +271,6 @@ class LoginScreen:
 
         if auth == 0:
             tkinter.messagebox.showwarning(title='Erro', message='Aluno não encontrado! Tente novamente.')
-        elif auth == 1:
+        else:
+            tkinter.messagebox.showinfo(title='Inatel', message=f'Bem vindo(a) {auth}')
             self.createNewWindow()

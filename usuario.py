@@ -34,7 +34,8 @@ class Usuario:
 
         if len(result) == 1:
             print('Aluno Autenticado')
-            return 1
+            for record in result:
+                return record['nome']
         elif len(result) == 0:
             print('Not Found')
             return 0

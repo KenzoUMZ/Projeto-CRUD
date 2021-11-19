@@ -23,6 +23,6 @@ a janela do menu seja aberta
 
 Coisas para Implementar:
 
-1 - Estruturar as funções para acessar e autenticar os usuários no banco de dados.
+1 - Estruturar as funções para acessar e autenticar os usuários no banco de dados.\n
 2 - Aumentar as informações dos itens do almoxarifado.
 3- Criar relacionamentos para organizar melhor os itens do banco de dados (semelhante a estantes enumeradas).
