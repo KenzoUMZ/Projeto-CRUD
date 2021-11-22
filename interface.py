@@ -10,6 +10,7 @@ from PIL import Image, ImageTk
 class CRUDScreen:
 
     def __init__(self, master=None):
+
         # Labels das fontes
         self.fonte_titulo = ('Verdana', '8')
         self.fonte_labels = ('Calibri', '10', 'bold')
@@ -34,16 +35,20 @@ class CRUDScreen:
         self.container4.pack()
         self.container5 = Frame(master)
         self.container5['padx'] = 20
-        self.container5['pady'] = 30
+        self.container5['pady'] = 6
         self.container5.pack()
         self.container6 = Frame(master)
         self.container6['padx'] = 20
-        self.container6['pady'] = 6
+        self.container6['pady'] = 30
         self.container6.pack()
         self.container7 = Frame(master)
         self.container7['padx'] = 20
         self.container7['pady'] = 5
         self.container7.pack()
+        self.container8 = Frame(master)
+        self.container8['padx'] = 20
+        self.container8['pady'] = 5
+        self.container8.pack()
 
         # Container1
 
@@ -60,6 +65,8 @@ class CRUDScreen:
 
         # Radio buttons das categorias
         self.selected_categoria = StringVar()
+        self.selected_categoria.set(0)
+
         self.radiobutton_categoria_comp = ttk.Radiobutton(self.container2,
                                                           width=14,
                                                           text='Componente',
@@ -67,11 +74,13 @@ class CRUDScreen:
                                                           value='C',
                                                           state=NORMAL)
         self.radiobutton_categoria_comp.pack(side=RIGHT, padx=2)
+
         self.radiobutton_categoria_fer = ttk.Radiobutton(self.container2, width=14,
                                                          text='Ferramenta',
                                                          variable=self.selected_categoria,
                                                          value='F',
                                                          state=NORMAL)
+        self.radiobutton_categoria_fer['command'] = self.change_list_item
         self.radiobutton_categoria_fer.pack(side=RIGHT, padx=2)
 
         # Container3
@@ -87,8 +96,14 @@ class CRUDScreen:
                                         'Multímetro', 'Fita Isolante',
                                         'Tesoura', 'Jacarés', 'Gerador de Funções',
                                         'Osciloscópio']
+
+        self.componentes = ['Resistor', 'Potenciômetro', 'Capacitor',
+                            'Diodo', 'Led', 'Bateria']
+        self.ferramentas = ['Multímetro', 'Fita Isolante',
+                            'Tesoura', 'Jacarés', 'Gerador de Funções',
+                            'Osciloscópio']
         self.combobox_nome = ttk.Combobox(self.container3, width=28,
-                                          values=self.componentes_ferramentas,
+                                          values=['Selecione uma categoria'],
                                           state='readonly', font=self.fonte_text_field)
         self.combobox_nome.current(0)
         self.combobox_nome.pack(side=LEFT)
@@ -99,58 +114,76 @@ class CRUDScreen:
                                   text='Código:', font=self.fonte_labels, width=10)
         self.label_codigo.pack(side=LEFT)
 
-        # Campo de texto do nome
+        # Campo de texto do código
         self.text_field_codigo = Entry(self.container4)
         self.text_field_codigo['width'] = 30
         self.text_field_codigo['font'] = self.fonte_text_field
         self.text_field_codigo.pack(side=LEFT)
 
+        # Label da prateleira
+        self.label_prateleira = Label(self.container5,
+                                      text='Prateleira',
+                                      width=10)
+        self.label_prateleira.pack(side=LEFT)
+
+        # Numero da prateleira
+        self.text_field_prateleira = Entry(self.container5)
+        self.text_field_prateleira['width'] = 30
+        self.text_field_prateleira['font'] = self.fonte_text_field
+        self.text_field_prateleira.pack(side=LEFT)
+
         # Container5
         # Onde os resultados são mostrados
-        self.label_result = Label(self.container5, text="")
+        self.label_result = Label(self.container6, text="")
         self.label_result["font"] = self.fonte_labels
         self.label_result.pack()
         #
 
         # Container6
         # Botao Inserir Item
-        self.button_inserir = Button(self.container6, text='Devolver Item',
+        self.button_inserir = Button(self.container7, text='Devolver Item',
                                      font=self.fonte_labels, width=16)
         self.button_inserir['command'] = self.InserirItem
         self.button_inserir.pack(side=LEFT)
 
         # Botao Pesquisar
-        self.button_pesquisar = Button(self.container6, text='Pesquisar',
+        self.button_pesquisar = Button(self.container7, text='Pesquisar',
                                        font=self.fonte_labels, width=16)
         self.button_pesquisar['command'] = self.PesquisarItem
         self.button_pesquisar.pack(side=LEFT)
 
         # Container7
         # Botao atualizar
-        self.button_atualizar = Button(self.container7, text='Atualizar',
+        self.button_atualizar = Button(self.container8, text='Atualizar',
                                        font=self.fonte_labels, width=15)
         self.button_atualizar['command'] = self.AtualizarItem
         self.button_atualizar.pack(side=LEFT)
 
         # Botao retirar
-        self.button_retirar = Button(self.container7, text='Retirar',
+        self.button_retirar = Button(self.container8, text='Retirar',
                                      font=self.fonte_labels, width=15)
         self.button_retirar['command'] = self.RetirarItem
         self.button_retirar.pack(side=LEFT)
 
+        # Container8
+        #
         # Create
 
     def InserirItem(self):
         nome = self.combobox_nome.get()
         codigo = self.text_field_codigo.get()
         categoria = self.selected_categoria.get()
+        especificacao = None
+        prat = None
+        andar = None
 
-        it(nome, codigo, categoria)
+        it(nome, codigo, categoria, especificacao, prat, andar)
 
     # Read
     def PesquisarItem(self):
         nome = self.combobox_nome.get()
         categoria = self.selected_categoria.get()
+        print(categoria)
         codigo = self.text_field_codigo.get()
         print(nome, categoria, codigo)
         if categoria is None:
@@ -172,13 +205,24 @@ class CRUDScreen:
         codigo = self.text_field_codigo.get()
         it.remover(codigo)
 
+    # Era pra mudar a lista aqui
+    def change_list_item(self):
+        print('passou aqui pra mudar')
+        print(self.selected_categoria)
+        if self.selected_categoria == 'F':
+            print('Mostrando ferramentas')
+            self.combobox_nome['values'] = self.ferramentas
+        else:
+            print('Mostrando componentes')
+            self.combobox_nome['values'] = self.componentes
+
 
 class LoginScreen:
 
     def __init__(self, master=None):
         # Labels das fontes
         self.fonte_titulo = ('Ubuntu', '13', 'bold')
-        self.fonte_labels = ('Ubuntu', '10')
+        self.fonte_labels = ('Ubuntu', '10', 'bold')
         self.fonte_text_field = ('Calibri Light', '10')
 
         # Criando containers e labels
@@ -257,7 +301,7 @@ class LoginScreen:
         img = ImageTk.PhotoImage(Image.open('login2.png'))
 
         self.button_login = Button(self.container4, text='Login',
-                                   font=self.fonte_labels, width=5,
+                                   font=self.fonte_text_field, width=5,
                                    command=self.Login)
         self.button_login.pack(side=BOTTOM)
 
