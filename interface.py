@@ -290,15 +290,15 @@ class LoginScreen:
         self.label_matricula = Label(self.container2,
                                      text='Matrícula:',
                                      font=self.fonte_labels,
-                                     width=10)
+                                     width=8)
         self.label_matricula.configure(bg='#856ff8', fg='#FFFFFF')
         self.label_matricula.pack(side=LEFT)
 
         # Campo de texto da matricula
         self.text_field_matricula = Entry(self.container2)
-        self.text_field_matricula['width'] = 20
+        self.text_field_matricula['width'] = 28
         self.text_field_matricula['font'] = self.fonte_text_field
-        self.text_field_matricula.pack(side=LEFT, padx=26)
+        self.text_field_matricula.pack(side=LEFT, padx=5)
 
         # Container 3
         self.container3 = Frame(master)
