@@ -17,9 +17,6 @@ Projeto de CRUD em Python utilizando Neo4J (Finalizado)
 
 ![Alt text](Screenshots/flowchart.png?raw=true "Flowchart")
 
-4 - O principal problema a ser resolvido é uma janela indesejada em branco sendo aberta junto com o acionamento do botão de login, já que o mesmo faz com que 
-a janela do menu seja aberta
-
 # Observações:
 
 Execução:
