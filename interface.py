@@ -160,7 +160,7 @@ class CRUDScreen:
         # Numero da prateleira
         self.text_field_prateleira = Entry(self.container6)
         self.text_field_prateleira['width'] = 30
-        self.text_field_prateleira['font'] = self.fonte_labels
+        self.text_field_prateleira['font'] = self.fonte_text_field
         self.text_field_prateleira.pack(side=LEFT)
 
         # Label do andar
@@ -211,7 +211,14 @@ class CRUDScreen:
         prat = self.text_field_prateleira.get()
         andar = self.text_field_andar.get()
 
-        it(nome, codigo, categoria, especificacao, prat, andar)
+        output = it(nome, codigo, categoria, especificacao, prat, andar).inserir_prat()
+
+        if output == 1:
+            tkinter.messagebox.showinfo(title='Sua Busca',
+                                        message=f'Item {codigo} devolvido!')
+        else:
+            tkinter.messagebox.showerror(title='Sua Busca',
+                                         message='Não foi possível devolver este item')
 
     # Read
     def PesquisarItem(self):

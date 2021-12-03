@@ -11,24 +11,32 @@ class Item:
         self.especificacao = especificacao
         self.prat = prat
         self.andar = andar
+
         query1 = str(
-            'CREATE(:Item' + '{nome:"' + f'{self.nome}",' + f'código:{self.cod},' +
+            'CREATE(i:Item' + '{nome:"' + f'{self.nome}",' + f'código:{self.cod},' +
             f'categoria:"{self.categoria}",' + f'especificação:{self.especificacao}'
-            + '});')
+            + '}) RETURN i')
         db.execute_query(query1)
-        print(query1)
-        query2 = str(
-            'CREATE(:Prateleira' + '{número:' + f'{self.prat},' + f'andar:{self.andar}'
-            + '});')
+
+        query2 = str('CREATE(:Prateleira' + '{número:' + f'{self.prat},' + f'andar:{self.andar}'
+                     + '});')
         db.execute_query(query2)
-        print(query2)
-        query3 = str('MATCH(p:Prateleira{número:' + f'{prat}, ' + f'andar:{andar}' +
-                     '}),(i:Item{nome:' + f'"{nome}",' + 'código:' + f'{cod},' +
-                     'categoria:' + f'"{categoria}",' +
-                     'especificação:' + f'{especificacao}' +
-                     '})CREATE(i) - [:DISPONIVEL_PARA]->(p)')
-        print(query3)
-        db.execute_query(query3)
+
+    def inserir_prat(self):
+
+        query3 = str('MATCH(p:Prateleira{número:' + f'{self.prat}, ' + f'andar:{self.andar}' +
+                     '}),(i:Item{nome:' + f'"{self.nome}",' + 'código:' + f'{self.cod},' +
+                     'categoria:' + f'"{self.categoria}",' +
+                     'especificação:' + f'{self.especificacao}' +
+                     '})RETURN i, p')
+        result = db.execute_query(query3)
+
+        if len(result) != 0:
+            print(len(result), 'sucesso')
+            return 1
+        else:
+            print(len(result), 'fracasso')
+            return 0
 
     @staticmethod
     def pesquisar(nome='', cod='', categoria='', espec='', prat='', andar=''):
