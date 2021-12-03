@@ -1,6 +1,6 @@
 import tkinter
 from interface import LoginScreen
-from setup import insert_all  # Esse arquivo serve exclusivamente pra inserir dados hipotéticos no DB
+from setup import insert_all  # Esse script serve exclusivamente pra inserir dados hipotéticos no DB
 
 # insert_all()
 root = tkinter.Tk()

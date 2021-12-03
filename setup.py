@@ -15,7 +15,7 @@ def insert_all():
     componentes = ('Resistor', 'Potenciômetro', 'Capacitor', 'Diodo', 'Led', 'Bateria')
     ferramentas = ('Multímetro', 'Fita Isolante', 'Tesoura', 'Jacarés', 'Gerador de Funções', 'Osciloscópio')
 
-    for i in range(100):
+    for i in range(50):
         rand_name = gfn()
         rand_age = randint(17, 27)
         rand_mat = randint(1, 3000)

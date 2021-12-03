@@ -1,6 +1,5 @@
 from database import Graph as Gp
-from tkinter.messagebox import showinfo
-import tkinter as tk
+
 
 db = Gp('bolt://localhost:7687', 'neo4j', '12345')
 
@@ -30,12 +29,8 @@ class Usuario:
             f'curso:"{self.curso}"' + '}) RETURN u.nome as nome')
         result = db.execute_query(query)
 
-        print(query)
-
         if len(result) == 1:
-            print('Aluno Autenticado')
             for record in result:
                 return record['nome']
         elif len(result) == 0:
-            print('Not Found')
             return 0

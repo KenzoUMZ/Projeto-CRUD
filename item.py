@@ -8,50 +8,85 @@ class Item:
         self.nome = nome
         self.cod = cod
         self.categoria = categoria
-        query = str(
-            'CREATE(:Item' + '{nome:"' + f'{self.nome}",' + f'codigo:{self.cod},' +
-            f'categoria:"{self.categoria}"' + '});')
-        db.write(query)
-
-        query = str('MATCH(p:Pratileira{numero:' + f'{prat}' + f'andar:{andar}' +
-                    '}),(i:Item{nome:' + f'{nome}' + 'cod:' + f'{cod}' + 'categoria:' +
-                    f'{categoria}' + 'especificação:' + f'{especificacao}' +
-                    '})CREATE(i) - [: DISPONIVEL_PARA]->(p) )')
-        db.execute_query(query)
+        self.especificacao = especificacao
+        self.prat = prat
+        self.andar = andar
+        query1 = str(
+            'CREATE(:Item' + '{nome:"' + f'{self.nome}",' + f'código:{self.cod},' +
+            f'categoria:"{self.categoria}",' + f'especificação:{self.especificacao}'
+            + '});')
+        db.execute_query(query1)
+        print(query1)
+        query2 = str(
+            'CREATE(:Prateleira' + '{número:' + f'{self.prat},' + f'andar:{self.andar}'
+            + '});')
+        db.execute_query(query2)
+        print(query2)
+        query3 = str('MATCH(p:Prateleira{número:' + f'{prat}, ' + f'andar:{andar}' +
+                     '}),(i:Item{nome:' + f'"{nome}",' + 'código:' + f'{cod},' +
+                     'categoria:' + f'"{categoria}",' +
+                     'especificação:' + f'{especificacao}' +
+                     '})CREATE(i) - [:DISPONIVEL_PARA]->(p)')
+        print(query3)
+        db.execute_query(query3)
 
     @staticmethod
-    def pesquisar(cod='', nome='', categoria=''):
+    def pesquisar(nome='', cod='', categoria='', espec='', prat='', andar=''):
 
-        if nome == '' and categoria == '':
-            query = str('MATCH(i:Item{codigo:' + f'{cod}' + '})' +
-                        'RETURN i.nome AS nome, i.categoria AS categoria;')
+        exp_comp = (nome != '' and cod != '' and categoria == 'Componente'
+                    and espec != '' and prat != '' and andar != '')
+        exp_fer = (nome != '' and cod != '' and categoria == 'Ferramenta'
+                   and espec == '' and prat != '' and andar != '')
+        # Pesquisa completa
+        if exp_comp:
+            query = str('MATCH(p:Prateleira{número:' + f'{prat}, ' +
+                        f'andar:{andar}' +
+                        '}),(i:Item{nome:' + f'"{nome}",' +
+                        'código:' + f'{cod},' +
+                        'categoria:' + f'"{categoria}",' +
+                        'especificação:' + f'{espec}' +
+                        '})RETURN i.nome AS nome,' +
+                        ' i.especificação AS especificação,' +
+                        'i.categoria AS categoria, ' +
+                        'p.número AS número,'
+                        'p.andar AS andar;')
             result = db.execute_query(query)
-            for record in result:
-                return f'Item-> Nome: {record["nome"]}, Categoria: {record["categoria"]}'
-
-        elif cod == '' and categoria == '':
-            print('somente nome recebido')
-            query = str('MATCH(i:Item{nome:' + f'"{nome}"' + '})' +
-                        'RETURN i.nome AS nome, i.categoria AS categoria;')
             print(query)
-            result = db.execute_query(query)
             for record in result:
-                return f'Item-> Nome: {record["nome"]}, Categoria: {record["categoria"]}'
-
-        elif cod == '' and nome == '':
-            query = str('MATCH(i:Item{ categoria:' + f'{categoria}' + '})' +
-                        'RETURN i.nome AS nome, i.categoria AS categoria;')
+                return str(f'Nome: {record["nome"]}, '
+                           f'Especificação: {record["especificação"]}\n' +
+                           f'Prateleira: {record["número"]}, ' +
+                           f'Andar:{record["andar"]}')
+            if len(result) == 0:
+                return 'Nenhum resultado encontrado'
+        if exp_fer:
+            query = str('MATCH(p:Prateleira{número:' + f'{prat}, ' +
+                        f'andar:{andar}' +
+                        '}),(i:Item{nome:' + f'"{nome}",' +
+                        'código:' + f'{cod},' +
+                        'categoria:' + f'"{categoria}"' +
+                        '})RETURN i.nome AS nome,' +
+                        'p.número AS número,'
+                        'p.andar AS andar;')
             result = db.execute_query(query)
+            print(query)
             for record in result:
-                return f'Item-> Nome: {record["nome"]}, Categoria: {record["categoria"]}'
+                return str(f'Nome: {record["nome"]},\n'
+                           f'Prateleira: {record["número"]}, ' +
+                           f'Andar:{record["andar"]}')
+            if len(result) == 0:
+                return 'Nenhum resultado encontrado'
         else:
-            print('to aq')
-            return 'Nenhum resultado encontrado'
+            return 'Por favor preencha todos os campos!'
 
+    # Recebe o código e atualiza o restante dos parametros mas mantem o lugar na prateleira
     @staticmethod
-    def atualizar(cod, nome, categoria):
-        query = str('MATCH(i:Item{codigo:' + f'{cod}' + '})' +
-                    'SET i.nome =' + f'"{nome}",' + 'i.categoria = ' + f'"{categoria}"')
+    def atualizar(cod='', nome='', categoria='', espec=''):
+
+        query = str('MATCH(i:Item{código:' + f'{cod}' + '})' +
+                    'SET i.nome =' + f'"{nome}",' +
+                    'i.categoria = ' + f'"{categoria}", ' +
+                    'i.especificações = ' + f'{espec}')
         db.write(query)
 
     @staticmethod
@@ -63,5 +98,3 @@ class Item:
     def limpar_grafo():
         query = 'MATCH (n) DETACH DELETE n'
         db.execute_query(query)
-
-
