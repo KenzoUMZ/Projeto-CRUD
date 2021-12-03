@@ -86,13 +86,23 @@ class Item:
         query = str('MATCH(i:Item{código:' + f'{cod}' + '})' +
                     'SET i.nome =' + f'"{nome}",' +
                     'i.categoria = ' + f'"{categoria}", ' +
-                    'i.especificações = ' + f'{espec}')
-        db.write(query)
+                    'i.especificações = ' + f'{espec}' +
+                    'RETURN i.código as cod')
+        result = db.write(query)
+        if len(result) == 1:
+            return 1
+        else:
+            return 0
 
     @staticmethod
     def remover(cod):
-        query = 'MATCH(i:Item{codigo:' + f'{cod}' + '})' + ' DETACH DELETE i'
-        db.write(query)
+        query = 'MATCH(i:Item{código:' + f'{cod}' + '})' + ' DETACH DELETE i RETURN 1'
+        result = db.write(query)
+
+        if len(result) == 1:
+            return 1
+        else:
+            return 0
 
     @staticmethod
     def limpar_grafo():

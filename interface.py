@@ -230,12 +230,25 @@ class CRUDScreen:
         categoria = self.combobox_categoria.get()
         codigo = self.text_field_codigo.get()
         espec = self.text_field_especificacao.get()
-        it.atualizar(codigo, nome, categoria, espec)
+        output = it.atualizar(codigo, nome, categoria, espec)
+        if output == 1:
+            tkinter.messagebox.showinfo(title='Sua Busca',
+                                        message=f'Item {codigo} atualizado!')
+        else:
+            tkinter.messagebox.showerror(title='Sua Busca',
+                                         message='Não foi possível atualizar este item')
 
     # Delete
     def RetirarItem(self):
         codigo = self.text_field_codigo.get()
-        it.remover(codigo)
+        output = it.remover(codigo)
+
+        if output == 1:
+            tkinter.messagebox.showinfo(title='Sua Busca',
+                                        message=f'Item {codigo} retirado!')
+        else:
+            tkinter.messagebox.showerror(title='Sua Busca',
+                                         message='Não foi possível retirar este item')
 
     # Era pra mudar a lista aqui
     def change_list_item(self):

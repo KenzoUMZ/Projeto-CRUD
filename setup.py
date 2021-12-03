@@ -28,8 +28,8 @@ def insert_all():
 
         rand_val = randint(10, 500)
         rand_exp = randint(-6, 6)
-        rand_cod = randint(1000, 1200)
-        rand_cod2 = randint(1000, 1200)
+        rand_cod = i
+        rand_cod2 = i + 1
         rand_andar = randint(1, 200)
         rand_comp = choice(componentes)
         rand_fer = choice(ferramentas)
