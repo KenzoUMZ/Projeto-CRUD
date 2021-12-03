@@ -5,12 +5,13 @@ Projeto de CRUD em Python utilizando Neo4J (Ainda não está finalizado)
 
 1- A primeira tela faz o login do Aluno utilizando suas credenciais de número de matrícula e curso.
 
-![Alt text](Screenshots/login.png?raw=true "Tela Login")
+![Alt text](Screenshots/sc1.png?raw=true "Tela Login")
+![Alt text](Screenshots/sc2.png?raw=true "Autenticação")
 
 2-Feito o login na tela anterior, uma segunda tela abre mostrando os campos e botões para acesso às informações do almoxarifado.
 
 
-![Alt text](Screenshots/menu.png?raw=true "Tela Menu")
+![Alt text](Screenshots/sc3.png?raw=true "Tela Menu")
 
 3 - O planjamento das funções básicas foram pensadas dentro de um flowchart
 
