@@ -94,7 +94,7 @@ class Item:
         query = str('MATCH(i:Item{código:' + f'{cod}' + '})' +
                     'SET i.nome =' + f'"{nome}",' +
                     'i.categoria = ' + f'"{categoria}", ' +
-                    'i.especificações = ' + f'{espec}' +
+                    'i.especificação = ' + f'{espec}' +
                     'RETURN i.código as cod')
         result = db.write(query)
         if len(result) == 1:
