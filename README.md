@@ -1,5 +1,5 @@
 # Projeto-CRUD
-Projeto de CRUD em Python utilizando Neo4J (Ainda não está finalizado)
+Projeto de CRUD em Python utilizando Neo4J (Finalizado)
 
 -Este projeto implementa uma interface gráfica utilizando a biblioteca Tkinter do Python para um software de controle de estoque para um almoxarifado.
 
@@ -22,8 +22,13 @@ a janela do menu seja aberta
 
 # Observações:
 
-Coisas para Implementar:
+Execução:
+pip install neo4j
+pip install names
 
-1 - Estruturar as funções para acessar e autenticar os usuários no banco de dados.\n
-2 - Aumentar as informações dos itens do almoxarifado.
-3- Criar relacionamentos para organizar melhor os itens do banco de dados (semelhante a estantes enumeradas).
+Deve-se alterar as credenciais de conexão antes de realizar testes
+
+1 - Executar main.py (há um script comentado aqui para caso queira um DB simulando diversos dados)
+
+Problemas:
+Erro de atributo do Tkinter para a segunda tela ainda permanece
