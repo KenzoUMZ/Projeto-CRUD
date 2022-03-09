@@ -3,7 +3,7 @@ from names import get_full_name as gfn
 from random import randint, choice
 from item import Item as it
 
-db = Gp('bolt://localhost:7687', 'neo4j', '12345')
+db = Gp('Connection String here')
 
 
 # Esse arquivo serve exclusivamente pra inserir dados hipotéticos no DB
